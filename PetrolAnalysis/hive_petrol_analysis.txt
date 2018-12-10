@@ -13,6 +13,8 @@ Loading data to table petroldatabase.petrol
 Table petroldatabase.petrol stats [numFiles=1, numRows=0, totalSize=19080, rawDataSize=0]
 OK
 Time taken 0.524 seconds
+
+
 hive select  from petrol limit 5;
 OK
 I4N 1M1 shell   $957.70 $5779.92        933     843     1624
@@ -21,6 +23,8 @@ T6Q 0L9 hindustan       $994.57 $11765.97       1039    805     1626
 S1J 8B8 Bharat  $881.25 $10345.43       1066    657     1627
 O5C 2A0 Bharat  $867.67 $11141.66       1097    839     1628
 Time taken 0.826 seconds, Fetched 5 row(s)
+
+
 hive select dist_name, sum(vol_out) from petrol group by dist_name;
 Query ID = clsadmin_20181210014922_70ecac50-f3ce-4a92-972d-b7e58b50553a
 Total jobs = 1
@@ -43,6 +47,8 @@ hindustan       71767
 reliance        76558
 shell   69266
 Time taken 16.22 seconds, Fetched 4 row(s)
+
+
 hive select dist_id, vol_out from petrol order by vol_out desc limit 10;
 Query ID = clsadmin_20181210015036_58f291a3-39a6-4fc9-9009-2b015ca42c34
 Total jobs = 1
@@ -69,6 +75,8 @@ J4M 4G3 895
 M6S 1P4 895
 N5Q 8E5 895
 Time taken 5.643 seconds, Fetched 10 row(s)
+
+
 hive set hive.cli.print.header=true;
 hive select dist_id, vol_out from petrol order by vol_out limit 10;
 Query ID = clsadmin_20181210015154_394ee6fc-ee87-4af6-a3bd-0c0535233984
@@ -97,6 +105,8 @@ V0Z 0F6 612
 W0M 8R7 612
 E6U 0I2 613
 Time taken 5.718 seconds, Fetched 10 row(s)
+
+
 hive select dist_name, year, vol_in-vol_out as vol_diff from petrol where vol_in-vol_out500;
 OK
 dist_name       year    vol_diff
