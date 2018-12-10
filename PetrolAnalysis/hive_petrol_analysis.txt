@@ -15,7 +15,7 @@ OK
 Time taken 0.524 seconds
 
 
-hive select  from petrol limit 5;
+hive select * from petrol limit 5;
 OK
 I4N 1M1 shell   $957.70 $5779.92        933     843     1624
 Z7O 7C2 reliance        $830.03 $1392.54        1067    722     1625
@@ -107,11 +107,11 @@ E6U 0I2 613
 Time taken 5.718 seconds, Fetched 10 row(s)
 
 
-hive select dist_name, year, vol_in-vol_out as vol_diff from petrol where vol_in-vol_out500;
+hive select dist_name, year, vol_in-vol_out as vol_diff from petrol where vol_in-vol_out>500;
 OK
 dist_name       year    vol_diff
 Time taken 0.227 seconds
-hive select dist_name, year, vol_in-vol_out as vol_diff from petrol where vol_in-vol_out500;
+hive select dist_name, year, vol_in-vol_out as vol_diff from petrol where vol_in-vol_out<500;
 OK
 dist_name       year    vol_diff
 shell   1624    90
