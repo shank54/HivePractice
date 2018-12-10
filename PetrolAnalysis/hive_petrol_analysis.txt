@@ -1,0 +1,507 @@
+hive create database petroldatabase;
+OK
+Time taken 0.317 seconds
+hive use petroldatabase;
+OK
+Time taken 0.066 seconds
+hive create table petrol(dist_id string, dist_name string, amt_in string, amt_out string, vol_in int, vol_out int, year int)
+     row format delimited fields terminated by ',' stored as textfile;
+OK
+Time taken 0.616 seconds
+hive load data local inpath 'homewceclsadminpetrol.txt' into table petrol;
+Loading data to table petroldatabase.petrol
+Table petroldatabase.petrol stats [numFiles=1, numRows=0, totalSize=19080, rawDataSize=0]
+OK
+Time taken 0.524 seconds
+hive select  from petrol limit 5;
+OK
+I4N 1M1 shell   $957.70 $5779.92        933     843     1624
+Z7O 7C2 reliance        $830.03 $1392.54        1067    722     1625
+T6Q 0L9 hindustan       $994.57 $11765.97       1039    805     1626
+S1J 8B8 Bharat  $881.25 $10345.43       1066    657     1627
+O5C 2A0 Bharat  $867.67 $11141.66       1097    839     1628
+Time taken 0.826 seconds, Fetched 5 row(s)
+hive select dist_name, sum(vol_out) from petrol group by dist_name;
+Query ID = clsadmin_20181210014922_70ecac50-f3ce-4a92-972d-b7e58b50553a
+Total jobs = 1
+Launching Job 1 out of 1
+Tez session was closed. Reopening...
+Session re-established.
+Status Running (Executing on YARN cluster with App id application_1544405112330_0002)
+
+--------------------------------------------------------------------------------
+        VERTICES      STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+--------------------------------------------------------------------------------
+Map 1 ..........   SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ......   SUCCEEDED      1          1        0        0       0       0
+--------------------------------------------------------------------------------
+VERTICES 0202  [==========================] 100%  ELAPSED TIME 5.15 s
+--------------------------------------------------------------------------------
+OK
+Bharat  83662
+hindustan       71767
+reliance        76558
+shell   69266
+Time taken 16.22 seconds, Fetched 4 row(s)
+hive select dist_id, vol_out from petrol order by vol_out desc limit 10;
+Query ID = clsadmin_20181210015036_58f291a3-39a6-4fc9-9009-2b015ca42c34
+Total jobs = 1
+Launching Job 1 out of 1
+Status Running (Executing on YARN cluster with App id application_1544405112330_0002)
+
+--------------------------------------------------------------------------------
+        VERTICES      STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+--------------------------------------------------------------------------------
+Map 1 ..........   SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ......   SUCCEEDED      1          1        0        0       0       0
+--------------------------------------------------------------------------------
+VERTICES 0202  [==========================] 100%  ELAPSED TIME 5.05 s
+--------------------------------------------------------------------------------
+OK
+S8W 0P4 899
+T1A 9W4 899
+V8U 2T6 898
+O8A 6Z5 897
+O9P 9S3 897
+F6W 6H3 896
+E6O 9P1 895
+J4M 4G3 895
+M6S 1P4 895
+N5Q 8E5 895
+Time taken 5.643 seconds, Fetched 10 row(s)
+hive set hive.cli.print.header=true;
+hive select dist_id, vol_out from petrol order by vol_out limit 10;
+Query ID = clsadmin_20181210015154_394ee6fc-ee87-4af6-a3bd-0c0535233984
+Total jobs = 1
+Launching Job 1 out of 1
+Status Running (Executing on YARN cluster with App id application_1544405112330_0002)
+
+--------------------------------------------------------------------------------
+        VERTICES      STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+--------------------------------------------------------------------------------
+Map 1 ..........   SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ......   SUCCEEDED      1          1        0        0       0       0
+--------------------------------------------------------------------------------
+VERTICES 0202  [==========================] 100%  ELAPSED TIME 5.07 s
+--------------------------------------------------------------------------------
+OK
+dist_id vol_out
+F4D 6K2 602
+H7M 4M4 603
+G9F 6U7 607
+R3W 2E3 608
+H4P 6A9 610
+O5D 2R6 610
+O0D 0L1 612
+V0Z 0F6 612
+W0M 8R7 612
+E6U 0I2 613
+Time taken 5.718 seconds, Fetched 10 row(s)
+hive select dist_name, year, vol_in-vol_out as vol_diff from petrol where vol_in-vol_out500;
+OK
+dist_name       year    vol_diff
+Time taken 0.227 seconds
+hive select dist_name, year, vol_in-vol_out as vol_diff from petrol where vol_in-vol_out500;
+OK
+dist_name       year    vol_diff
+shell   1624    90
+reliance        1625    345
+hindustan       1626    234
+Bharat  1627    409
+Bharat  1628    258
+shell   1629    105
+shell   1630    242
+reliance        1631    94
+Bharat  1632    240
+hindustan       1633    226
+Bharat  1634    138
+Bharat  1635    44
+reliance        1636    296
+Bharat  1637    204
+hindustan       1638    257
+Bharat  1639    216
+shell   1640    150
+hindustan       1641    173
+hindustan       1642    254
+Bharat  1643    292
+reliance        1644    401
+Bharat  1645    99
+hindustan       1646    483
+shell   1647    306
+Bharat  1648    272
+shell   1649    134
+hindustan       1650    160
+hindustan       1651    322
+shell   1652    246
+shell   1653    29
+hindustan       1654    348
+reliance        1655    345
+Bharat  1656    371
+hindustan       1657    329
+shell   1658    295
+hindustan       1659    234
+Bharat  1660    287
+hindustan       1661    91
+hindustan       1662    428
+shell   1663    32
+reliance        1664    375
+Bharat  1665    281
+shell   1666    383
+shell   1667    105
+reliance        1668    257
+Bharat  1669    362
+shell   1670    406
+shell   1671    363
+hindustan       1672    266
+hindustan       1673    122
+reliance        1674    314
+hindustan       1675    131
+hindustan       1676    304
+hindustan       1677    155
+shell   1678    310
+shell   1679    139
+Bharat  1680    278
+shell   1681    58
+reliance        1682    309
+reliance        1683    202
+hindustan       1684    373
+hindustan       1685    167
+hindustan       1686    234
+hindustan       1687    148
+reliance        1688    219
+reliance        1689    312
+Bharat  1690    284
+shell   1691    213
+shell   1692    284
+shell   1693    455
+shell   1694    140
+reliance        1695    123
+hindustan       1696    167
+shell   1697    435
+Bharat  1698    240
+shell   1699    235
+reliance        1700    282
+Bharat  1701    237
+Bharat  1702    281
+reliance        1703    228
+shell   1704    258
+Bharat  1705    160
+Bharat  1706    189
+hindustan       1707    148
+reliance        1708    422
+shell   1709    201
+reliance        1710    113
+shell   1711    267
+Bharat  1712    150
+shell   1713    148
+hindustan       1714    98
+Bharat  1715    268
+hindustan       1716    310
+hindustan       1717    179
+reliance        1718    363
+shell   1719    350
+reliance        1720    228
+shell   1721    30
+hindustan       1722    349
+Bharat  1723    183
+Bharat  1724    365
+hindustan       1725    165
+shell   1726    443
+Bharat  1727    409
+Bharat  1728    271
+shell   1729    283
+shell   1730    265
+shell   1731    324
+Bharat  1732    464
+shell   1733    235
+shell   1734    204
+Bharat  1735    267
+reliance        1736    238
+Bharat  1737    60
+reliance        1738    287
+shell   1739    207
+shell   1740    83
+reliance        1741    409
+Bharat  1742    223
+Bharat  1743    385
+shell   1744    83
+hindustan       1745    417
+shell   1746    419
+shell   1747    224
+shell   1748    446
+shell   1749    407
+shell   1750    290
+hindustan       1751    246
+shell   1752    162
+reliance        1753    254
+shell   1754    253
+Bharat  1755    121
+reliance        1756    237
+hindustan       1757    91
+Bharat  1758    166
+reliance        1759    186
+hindustan       1760    260
+hindustan       1761    115
+Bharat  1762    275
+Bharat  1763    369
+hindustan       1764    155
+Bharat  1765    103
+reliance        1766    315
+shell   1767    480
+reliance        1768    44
+shell   1769    440
+Bharat  1770    59
+shell   1771    35
+reliance        1772    178
+Bharat  1773    23
+hindustan       1774    330
+Bharat  1775    154
+hindustan       1776    190
+Bharat  1777    257
+Bharat  1778    193
+reliance        1779    401
+Bharat  1780    268
+hindustan       1781    390
+reliance        1782    457
+Bharat  1783    265
+hindustan       1784    423
+shell   1785    268
+reliance        1786    95
+Bharat  1787    186
+Bharat  1788    375
+Bharat  1789    305
+shell   1790    51
+Bharat  1791    267
+reliance        1792    212
+reliance        1793    362
+reliance        1794    421
+shell   1795    474
+Bharat  1796    294
+shell   1797    361
+hindustan       1798    356
+Bharat  1799    389
+Bharat  1800    87
+hindustan       1801    250
+Bharat  1802    258
+hindustan       1803    275
+shell   1804    342
+Bharat  1805    95
+hindustan       1806    249
+hindustan       1807    399
+shell   1808    258
+reliance        1809    72
+hindustan       1810    120
+reliance        1811    145
+hindustan       1812    271
+reliance        1813    133
+shell   1814    368
+hindustan       1815    227
+shell   1816    343
+reliance        1817    337
+reliance        1818    389
+shell   1819    145
+Bharat  1820    251
+Bharat  1821    180
+Bharat  1822    51
+Bharat  1823    431
+hindustan       1824    336
+reliance        1825    308
+shell   1826    290
+reliance        1827    260
+hindustan       1828    149
+hindustan       1829    282
+hindustan       1830    212
+hindustan       1831    349
+reliance        1832    402
+reliance        1833    434
+hindustan       1834    119
+reliance        1835    265
+reliance        1836    157
+reliance        1837    110
+reliance        1838    203
+hindustan       1839    46
+reliance        1840    188
+reliance        1841    286
+Bharat  1842    39
+shell   1843    460
+hindustan       1844    163
+Bharat  1845    338
+hindustan       1846    114
+hindustan       1847    423
+reliance        1848    39
+reliance        1849    341
+hindustan       1850    128
+Bharat  1851    269
+shell   1852    424
+Bharat  1853    111
+hindustan       1854    296
+reliance        1855    374
+Bharat  1856    353
+shell   1857    172
+hindustan       1858    82
+shell   1859    238
+Bharat  1860    143
+Bharat  1861    373
+Bharat  1862    199
+Bharat  1863    256
+reliance        1864    130
+Bharat  1865    210
+Bharat  1866    387
+reliance        1867    126
+reliance        1868    294
+shell   1869    199
+reliance        1870    153
+hindustan       1871    288
+hindustan       1872    171
+hindustan       1873    215
+shell   1874    61
+shell   1875    394
+reliance        1876    303
+reliance        1877    242
+reliance        1878    289
+shell   1879    216
+Bharat  1880    397
+reliance        1881    334
+reliance        1882    275
+reliance        1883    126
+reliance        1884    208
+hindustan       1885    262
+Bharat  1886    152
+reliance        1887    232
+Bharat  1888    122
+reliance        1889    187
+reliance        1890    284
+shell   1891    201
+Bharat  1892    349
+Bharat  1893    186
+shell   1894    261
+Bharat  1895    148
+reliance        1896    170
+Bharat  1897    167
+Bharat  1898    375
+reliance        1899    296
+hindustan       1900    337
+hindustan       1901    358
+hindustan       1902    218
+Bharat  1903    378
+Bharat  1904    60
+Bharat  1905    235
+reliance        1906    354
+reliance        1907    239
+reliance        1908    279
+reliance        1909    132
+hindustan       1910    359
+reliance        1911    346
+shell   1912    378
+reliance        1913    262
+hindustan       1914    107
+hindustan       1915    336
+shell   1916    326
+Bharat  1917    290
+Bharat  1918    93
+Bharat  1919    286
+Bharat  1920    47
+hindustan       1921    261
+Bharat  1922    155
+shell   1923    306
+hindustan       1924    184
+reliance        1925    22
+reliance        1926    161
+reliance        1927    351
+hindustan       1928    105
+Bharat  1929    315
+shell   1930    406
+reliance        1931    293
+shell   1932    140
+hindustan       1933    158
+shell   1934    435
+shell   1935    478
+reliance        1936    278
+shell   1937    323
+reliance        1938    145
+Bharat  1939    287
+Bharat  1940    317
+Bharat  1941    154
+Bharat  1942    209
+reliance        1943    168
+Bharat  1944    280
+reliance        1945    395
+reliance        1946    406
+reliance        1947    358
+hindustan       1948    391
+reliance        1949    319
+hindustan       1950    381
+reliance        1951    304
+Bharat  1952    365
+reliance        1953    333
+shell   1954    311
+hindustan       1955    403
+reliance        1956    378
+shell   1957    197
+hindustan       1958    180
+Bharat  1959    347
+Bharat  1960    261
+shell   1961    204
+hindustan       1962    193
+shell   1963    339
+shell   1964    15
+Bharat  1965    204
+hindustan       1966    390
+reliance        1967    312
+hindustan       1968    300
+reliance        1969    253
+shell   1970    358
+reliance        1971    170
+hindustan       1972    248
+shell   1973    282
+Bharat  1974    381
+shell   1975    207
+hindustan       1976    240
+reliance        1977    261
+hindustan       1978    202
+Bharat  1979    394
+shell   1980    390
+hindustan       1981    136
+Bharat  1982    365
+Bharat  1983    284
+hindustan       1984    272
+Bharat  1985    223
+shell   1986    305
+hindustan       1987    187
+reliance        1988    282
+reliance        1989    227
+Bharat  1990    184
+hindustan       1991    349
+shell   1992    309
+hindustan       1993    151
+Bharat  1994    164
+Bharat  1995    428
+reliance        1996    135
+Bharat  1997    242
+hindustan       1998    248
+Bharat  1999    239
+reliance        2000    452
+reliance        2001    355
+Bharat  2002    383
+reliance        2003    387
+shell   2004    37
+Bharat  2005    370
+shell   2006    104
+reliance        2007    293
+Bharat  2008    70
+hindustan       2009    117
+Bharat  2010    114
+Bharat  2011    270
+reliance        2012    274
+hindustan       2013    243
+hindustan       2014    200
+reliance        2015    245
+shell   2016    296
+shell   2017    150
+reliance        2018    321
+shell   2019    408
+hindustan       2020    79
+reliance        2021    194
+shell   2022    324
+Bharat  2023    366
+Time taken 0.128 seconds, Fetched 400 row(s)
