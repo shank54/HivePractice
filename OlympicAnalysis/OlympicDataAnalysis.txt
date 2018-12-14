@@ -1,0 +1,462 @@
+hive> create database olympicdatabase;
+OK
+Time taken: 1.961 seconds
+hive> use olympicdatabase;
+OK
+Time taken: 0.046 seconds
+
+
+hive> create table olympic(athelete_name string, age int, country string, year string, closing_date string, sport string, gold_medals int, silver_medals int, bronze_medals int, total_medals int)
+    > row format delimited fields terminated by '\t' stored as textfile;
+OK
+Time taken: 0.143 seconds
+hive> load data local inpath '/home/wce/clsadmin/olympic_data.csv' into table olympic;
+Loading data to table olympicdatabase.olympic
+Table olympicdatabase.olympic stats: [numFiles=1, numRows=0, totalSize=518669, rawDataSize=0]
+OK
+Time taken: 0.26 seconds
+hive> select * from olympic limit 5;
+OK
+Michael Phelps  23      United States   2008    08-24-08        Swimming       80       0       8
+Michael Phelps  19      United States   2004    08-29-04        Swimming       60       2       8
+Michael Phelps  27      United States   2012    08-12-12        Swimming       42       0       6
+Natalie Coughlin        25      United States   2008    08-24-08        Swimming 1       2       3       6
+Aleksey Nemov   24      Russia  2000    10-01-00        Gymnastics      2      1        3       6
+
+
+hive> select country, sum(total_medals) from olympic where sport="Swimming" group by country;
+Query ID = clsadmin_20181210023404_55434dae-98d1-4cc6-ac65-fa700ba78d86
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1544405112330 _0004)
+
+--------------------------------------------------------------------------------
+        VERTICES      STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+--------------------------------------------------------------------------------
+Map 1 ..........   SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ......   SUCCEEDED      1          1        0        0       0       0
+--------------------------------------------------------------------------------
+VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 5.68 s
+--------------------------------------------------------------------------------
+OK
+Argentina       1
+Australia       163
+Austria 3
+Belarus 2
+Brazil  8
+Canada  5
+China   35
+Costa Rica      2
+Croatia 1
+Denmark 1
+France  39
+Germany 32
+Great Britain   11
+Hungary 9
+Italy   16
+Japan   43
+Lithuania       1
+Netherlands     46
+Norway  2
+Poland  3
+Romania 6
+Russia  20
+Serbia  1
+Slovakia        2
+Slovenia        1
+South Africa    11
+South Korea     4
+Spain   3
+Sweden  9
+Trinidad and Tobago     1
+Tunisia 3
+Ukraine 7
+United States   267
+Zimbabwe        7
+Time taken: 6.298 seconds, Fetched: 34 row(s)
+
+
+hive> select year, sum(total_medals) from olympic where country="India" group by year;
+Query ID = clsadmin_20181210024026_b1a910cb-bcb5-4f07-8fef-3aab8443560e
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1544405112330_0005)
+
+--------------------------------------------------------------------------------
+        VERTICES      STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+--------------------------------------------------------------------------------
+Map 1 ..........   SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ......   SUCCEEDED      1          1        0        0       0       0
+--------------------------------------------------------------------------------
+VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 5.78 s
+--------------------------------------------------------------------------------
+OK
+2000    1
+2004    1
+2008    3
+2012    6
+Time taken: 8.764 seconds, Fetched: 4 row(s)
+
+hive> select country, sum(total_medals) from olympic group by country;
+Query ID = clsadmin_20181210024218_4efde8e0-ad25-4639-a52c-1ad1bb314292
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1544405112330_0006)
+
+--------------------------------------------------------------------------------
+        VERTICES      STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+--------------------------------------------------------------------------------
+Map 1 ..........   SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ......   SUCCEEDED      1          1        0        0       0       0
+--------------------------------------------------------------------------------
+VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 5.48 s
+--------------------------------------------------------------------------------
+OK
+Afghanistan     2
+Algeria 8
+Argentina       141
+Armenia 10
+Australia       609
+Austria 91
+Azerbaijan      25
+Bahamas 24
+Bahrain 1
+Barbados        1
+Belarus 97
+Belgium 18
+Botswana        1
+Brazil  221
+Bulgaria        41
+Cameroon        20
+Canada  370
+Chile   22
+China   530
+Chinese Taipei  20
+Colombia        13
+Costa Rica      2
+Croatia 81
+Cuba    188
+Cyprus  1
+Czech Republic  81
+Denmark 89
+Dominican Republic      5
+Ecuador 1
+Egypt   8
+Eritrea 1
+Estonia 18
+Ethiopia        29
+Finland 118
+France  318
+Gabon   1
+Georgia 23
+Germany 629
+Great Britain   322
+Greece  59
+Grenada 1
+Guatemala       1
+Hong Kong       3
+Hungary 145
+Iceland 15
+India   11
+Indonesia       22
+Iran    24
+Ireland 9
+Israel  4
+Italy   331
+Jamaica 80
+Japan   282
+Kazakhstan      42
+Kenya   39
+Kuwait  2
+Kyrgyzstan      3
+Latvia  17
+Lithuania       30
+Macedonia       1
+Malaysia        3
+Mauritius       1
+Mexico  38
+Moldova 5
+Mongolia        10
+Montenegro      14
+Morocco 11
+Mozambique      1
+Netherlands     318
+New Zealand     52
+Nigeria 39
+North Korea     21
+Norway  192
+Panama  1
+Paraguay        17
+Poland  80
+Portugal        9
+Puerto Rico     2
+Qatar   3
+Romania 123
+Russia  768
+Saudi Arabia    6
+Serbia  31
+Serbia and Montenegro   38
+Singapore       7
+Slovakia        35
+Slovenia        25
+South Africa    25
+South Korea     308
+Spain   205
+Sri Lanka       1
+Sudan   1
+Sweden  181
+Switzerland     93
+Syria   1
+Tajikistan      3
+Thailand        18
+Togo    1
+Trinidad and Tobago     19
+Tunisia 4
+Turkey  28
+Uganda  1
+Ukraine 143
+United Arab Emirates    1
+United States   1312
+Uruguay 1
+Uzbekistan      19
+Venezuela       4
+Vietnam 2
+Zimbabwe        7
+Time taken: 8.365 seconds, Fetched: 110 row(s)
+
+
+hive> select country, sum(gold_medals) from olympic group by country;
+Query ID = clsadmin_20181210024307_73bb179c-9df9-42d8-a03d-41bf7d6e4494
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1544405112330_0006)
+
+--------------------------------------------------------------------------------
+        VERTICES      STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+--------------------------------------------------------------------------------
+Map 1 ..........   SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ......   SUCCEEDED      1          1        0        0       0       0
+--------------------------------------------------------------------------------
+VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 5.47 s
+--------------------------------------------------------------------------------
+OK
+Afghanistan     0
+Algeria 2
+Argentina       49
+Armenia 0
+Australia       163
+Austria 36
+Azerbaijan      6
+Bahamas 11
+Bahrain 0
+Barbados        0
+Belarus 17
+Belgium 2
+Botswana        0
+Brazil  46
+Bulgaria        8
+Cameroon        20
+Canada  168
+Chile   3
+China   234
+Chinese Taipei  2
+Colombia        2
+Costa Rica      0
+Croatia 35
+Cuba    57
+Cyprus  0
+Czech Republic  14
+Denmark 46
+Dominican Republic      3
+Ecuador 0
+Egypt   1
+Eritrea 0
+Estonia 6
+Ethiopia        13
+Finland 11
+France  108
+Gabon   0
+Georgia 6
+Germany 223
+Great Britain   124
+Greece  12
+Grenada 1
+Guatemala       0
+Hong Kong       0
+Hungary 77
+Iceland 0
+India   1
+Indonesia       5
+Iran    10
+Ireland 1
+Israel  1
+Italy   86
+Jamaica 24
+Japan   57
+Kazakhstan      13
+Kenya   11
+Kuwait  0
+Kyrgyzstan      0
+Latvia  3
+Lithuania       5
+Macedonia       0
+Malaysia        0
+Mauritius       0
+Mexico  19
+Moldova 0
+Mongolia        2
+Montenegro      0
+Morocco 2
+Mozambique      1
+Netherlands     101
+New Zealand     18
+Nigeria 6
+North Korea     6
+Norway  97
+Panama  1
+Paraguay        0
+Poland  20
+Portugal        1
+Puerto Rico     0
+Qatar   0
+Romania 57
+Russia  234
+Saudi Arabia    0
+Serbia  1
+Serbia and Montenegro   11
+Singapore       0
+Slovakia        10
+Slovenia        5
+South Africa    10
+South Korea     110
+Spain   19
+Sri Lanka       0
+Sudan   0
+Sweden  57
+Switzerland     21
+Syria   0
+Tajikistan      0
+Thailand        6
+Togo    0
+Trinidad and Tobago     1
+Tunisia 2
+Turkey  9
+Uganda  1
+Ukraine 31
+United Arab Emirates    1
+United States   552
+Uruguay 0
+Uzbekistan      5
+Venezuela       1
+Vietnam 0
+Zimbabwe        2
+
+
+hive> select year, country from olympic where sport="Shooting" group by year, country;
+Query ID = clsadmin_20181210025811_2fdd0683-7100-4f4f-995c-c69832541de6
+Total jobs = 1
+Launching Job 1 out of 1
+Tez session was closed. Reopening...
+Session re-established.
+Status: Running (Executing on YARN cluster with App id application_1544405112330_0007)
+
+--------------------------------------------------------------------------------
+        VERTICES      STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+--------------------------------------------------------------------------------
+Map 1 ..........   SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ......   SUCCEEDED      1          1        0        0       0       0
+--------------------------------------------------------------------------------
+VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 5.74 s
+--------------------------------------------------------------------------------
+OK
+2000    Australia
+2000    Azerbaijan
+2000    Belarus
+2000    Bulgaria
+2000    China
+2000    Czech Republic
+2000    Denmark
+2000    Finland
+2000    France
+2000    Great Britain
+2000    Hungary
+2000    Italy
+2000    Kuwait
+2000    Lithuania
+2000    Moldova
+2000    Norway
+2000    Poland
+2000    Romania
+2000    Russia
+2000    Serbia and Montenegro
+2000    Slovenia
+2000    South Korea
+2000    Sweden
+2000    Switzerland
+2000    Ukraine
+2000    United States
+2004    Australia
+2004    Austria
+2004    Azerbaijan
+2004    Belarus
+2004    Bulgaria
+2004    China
+2004    Cuba
+2004    Czech Republic
+2004    Finland
+2004    Germany
+2004    Hungary
+2004    India
+2004    Italy
+2004    North Korea
+2004    Russia
+2004    Serbia and Montenegro
+2004    Slovakia
+2004    South Korea
+2004    Spain
+2004    Ukraine
+2004    United Arab Emirates
+2004    United States
+2008    Australia
+2008    China
+2008    Croatia
+2008    Cuba
+2008    Czech Republic
+2008    Finland
+2008    France
+2008    Georgia
+2008    Germany
+2008    India
+2008    Italy
+2008    Mongolia
+2008    Norway
+2008    Russia
+2008    Slovakia
+2008    Slovenia
+2008    South Korea
+2008    Ukraine
+2008    United States
+2012    Belarus
+2012    Belgium
+2012    China
+2012    Croatia
+2012    Cuba
+2012    Czech Republic
+2012    Denmark
+2012    France
+2012    Great Britain
+2012    India
+2012    Italy
+2012    Kuwait
+2012    Poland
+2012    Qatar
+2012    Romania
+2012    Russia
+2012    Serbia
+2012    Slovakia
+2012    Slovenia
+2012    South Korea
+2012    Sweden
+2012    Ukraine
+2012    United States
+Time taken: 15.67 seconds, Fetched: 90 row(s)
